@@ -1,8 +1,8 @@
-*align.txt*	The Alignment Tool			Dec 22, 2011
+*align.txt*	The Alignment Tool			Nov 29, 2012
 
-Author:    Charles E. Campbell, Jr.  <NdrOchip@ScampbellPfamily.AbizM>
+Author:    Charles E. Campbell      <NdrOchip@ScampbellPfamily.AbizM>
            (remove NOSPAM from Campbell's email first)
-Copyright: (c) 2004-2011 by Charles E. Campbell, Jr.	*Align-copyright*
+Copyright: (c) 2004-2012 by Charles E. Campbell     	*Align-copyright*
            The VIM LICENSE applies to Align.vim, AlignMaps.vim, and Align.txt
            (see |copyright|) except use "Align and AlignMaps" instead of "Vim"
            NO WARRANTY, EXPRESS OR IMPLIED.  USE AT-YOUR-OWN-RISK.
@@ -78,9 +78,9 @@ Copyright: (c) 2004-2011 by Charles E. Campbell, Jr.	*Align-copyright*
 ||              |    |                                                       ||
 ||              |    +-------------------------------------------------------++
 ||   1st arg    |  = | =  all separator patterns are equivalent and are      ||
-||              |    |    simultaneously active. Patterns are |regexp|.      ||
+||              |    |    simultaneously active. Patterns are |regexp|.        ||
 ||              |    | C  cycle through separator patterns.  Patterns are    ||
-||              |    |    |regexp| and are active sequentially.              ||
+||              |    |    |regexp| and are active sequentially.                ||
 ||              |    |                                                       ||
 ||              |  < | <  left justify separator   Separators are justified, ||
 ||              |    | >  right justify separator  too.  Separator styles    ||
@@ -315,7 +315,7 @@ ALIGNMENT OPTIONS	*align-option* *align-options* *align-xstrlen* {{{2
 	the most accurate.  (thanks to Tony Mechelynck for these)
 
 
-ALIGNMENT CONTROL				*alignctrl* *align-control* {{{2
+ALIGNMENT CONTROL				*:AlignCtrl* *align-control* {{{2
 
 	This command doesn't do the alignment operation itself; instead, it
 	controls subsequent alignment operation(s).
@@ -756,7 +756,7 @@ ALIGNMENT CONTROL INITIALIZATION	*alignctrl-init* *alignctrl-initialization* {{{
 	and :AlignCtrl will then be defined.
 
 
-ALIGNMENT						*align-align* {{{2
+ALIGNMENT						*:Align* *align-align* {{{2
 
 	Once the alignment control has been determined, the user specifies a
 	range of lines for the Align command/function to do its thing.
@@ -852,7 +852,7 @@ ALIGNMENT						*align-align* {{{2
 	  \adcom: useful for aligning comments in declarations  |alignmap-adcom|
 	  \anum : useful for aligning numbers 			|alignmap-anum|
 	          NOTE: For the visual-mode use of \anum, <vis.vim> is needed!
-		    See http://mysite.verizon.net/astronaut/vim/index.html#VIS
+		    See http://www.drchip.org/astronaut/vim/index.html#VIS
 	  \aenum: align a European-style number			|alignmap-anum|
 	  \aunum: align a USA-style number			|alignmap-anum|
 	  \adec : useful for aligning declarations		|alignmap-adec|
@@ -916,7 +916,7 @@ ALIGNMENT						*align-align* {{{2
 	an AlignMap with the vis.vim plugin, available at either
 
 	 stable:  http://vim.sourceforge.net/scripts/script.php?script_id=1195
-	 devel :  http://mysite.verizon.net/astronaut/vim/index.html#VIS
+	 devel :  http://www.drchip.org/astronaut/vim/index.html#VIS
 
 	Use it with commands such as >
 
@@ -1400,6 +1400,9 @@ ALIGNMENT						*align-align* {{{2
 4. Alignment Tools' History				*align-history* {{{1
 
 ALIGN HISTORY								{{{2
+	37 : Nov 29, 2012 * (Kim Jang-hwan) reported that with g:Align_xstrlen
+			    set to 3 that the cursor was moved (linewise)
+			    after invocation.  Fixed.
 	36 : May 20, 2009 * Previously, the "W" AlignCtrl setting, intended
 	                    to retain initial white space, did so by convert-
 	                    ing any leading tabs into an equivalent quantity
@@ -1498,6 +1501,8 @@ ALIGN HISTORY								{{{2
 	 9 : Jun 25, 2002 : implemented cyclic padding
 
 ALIGNMENT MAP HISTORY					*alignmap-history* {{{2
+       v43    Nov 28, 2012   * changed a lot of maps to use nnoremap (instead
+	                       of map)
        v42    Jan 06, 2010   * new maps for \anum, \aenum, \aunum
 	      Feb 16, 2010   * map for \t=, \T= now handles x++ = something;
 	                       for c, c++ correctly.
