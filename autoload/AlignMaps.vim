@@ -1,8 +1,8 @@
 " AlignMaps.vim : support functions for AlignMaps
-"   Author: Charles E. Campbell, Jr.
-"     Date: Nov 28, 2012
-"  Version: 43a	ASTRO-ONLY
-" Copyright:    Copyright (C) 1999-2012 Charles E. Campbell, Jr. {{{1
+"   Author: Charles E. Campbell
+"     Date: Mar 30, 2013
+"  Version: 44a	ASTRO-ONLY
+" Copyright:    Copyright (C) 1999-2012 Charles E. Campbell {{{1
 "               Permission is hereby granted to use and distribute this code,
 "               with or without modifications, provided that this copyright
 "               notice is copied with it. Like anything else that's free,
@@ -16,10 +16,20 @@
 if &cp || exists("g:loaded_AlignMaps")
  finish
 endif
-let g:loaded_AlignMaps= "v43a"
+let g:loaded_AlignMaps= "v44a"
 let s:keepcpo         = &cpo
 set cpo&vim
+
+" ---------------------------------------------------------------------
+" Debugging Support:
+"if !exists("g:loaded_Decho")              " Decho
+" runtime plugin/Decho.vim                 " Decho
+"endif                                     " Decho
+"if !exists("g:loaded_cecutil")            " Decho
+" runtime AsNeeded/cecutil.vim             " Decho
+"endif                                     " Decho
 "DechoTabOn
+"call Decho("AlignMaps loaded")
 
 " =====================================================================
 " Functions: {{{1
@@ -169,15 +179,15 @@ endfun
 " AlignMaps#Equals: supports \t= and \T= {{{2
 fun! AlignMaps#Equals() range
 "  call Dfunc("AlignMaps#Equals()")
-  keepj 'a,'zs/\s\+\([*/+\-%|&\~^]\==\)/ \1/e
-  keepj 'a,'zs@ \+\([*/+\-%|&\~^]\)=@\1=@ge
+  keepj 'a,'zs/\s\+\([.*/+\-%|&\~^]\==\)/ \1/e
+  keepj 'a,'zs@ \+\([.*/+\-%|&\~^]\)=@\1=@ge
   keepj 'a,'zs/==/\="\<Char-0x0f>\<Char-0x0f>"/ge
   keepj 'a,'zs/\([!<>:]\)=/\=submatch(1)."\<Char-0x0f>"/ge
   keepj norm g'zk
   AlignCtrl mIp1P1=l =
   AlignCtrl g =
   keepj 'a,'z-1Align
-  keepj 'a,'z-1s@\([*/%|&\~^!=]\)\( \+\)=@\2\1=@ge
+  keepj 'a,'z-1s@\([.*/%|&\~^!=]\)\( \+\)=@\2\1=@ge
   keepj 'a,'z-1s@[^+\-]\zs\([+\-]\)\( \+\)=@\2\1=@ge
   keepj 'a,'z-1s/\( \+\);/;\1/ge
   if &ft == "c" || &ft == "cpp"
@@ -323,37 +333,6 @@ fun! AlignMaps#FixMultiDec()
   let curline = getline(".")
 "  call Decho("curline<".curline.">")
 
-"  " Attempt to ignore function calls (ie. double x=pow(2.,3.),...
-"  let leader= substitute(curline,'^\s*\([a-zA-Z_ \t][a-zA-Z0-9<>_ \t]*\)\s\+.*$','\1','')
-"  let i     = strlen(leader)
-"  let paren = 0
-"  let fmd   = strpart(curline,i)
-"  let ifmd  = i
-"  call Decho("fmd<".fmd."> ifmd=".ifmd)
-"  while i < strlen(curline)
-"   if strpart(curline,i,1) == '('
-"	let paren= paren+1
-"   elseif strpart(curline,i,1) == ')' && paren > 0
-"	let paren= paren-1
-"   elseif strpart(curline,i,1) == '='
-"	let eq= 1
-"   elseif strpart(curline,i,1) == ';'
-"	let paren = 0
-"	let eq    = 0
-"	let fmd   = fmd.strpart(fmd,ifmd,i-ifmd).";\<cr>"
-"	let ifmd  = i + 2
-"	let i     = i + 1
-"    let leader= substitute(curline,'^\s*\([a-zA-Z_ \t][a-zA-Z0-9<>_ \t]*\)\s\+.*$','\1','')
-"   elseif strpart(curline,i,1) == ','
-"	if paren == 0
-"     let fmd   = fmd.strpart(fmd,ifmd,i-ifmd).";\<cr>"
-"     let ifmd  = i + 2
-"     let i     = i + 1
-"	endif
-"   endif
-"   let i= i + 1
-"  endwhile
-  " Get the type.  I'm assuming one type per line (ie.  int x; double y;   on one line will not be handled properly)
   let @x=substitute(curline,'^\(\s*[a-zA-Z_ \t][a-zA-Z0-9<>_ \t]*\)\s\+[(*]*\h.*$','\1','')
 "  call Decho("@x<".@x.">")
 
@@ -384,6 +363,34 @@ fun! AlignMaps#AlignMapsClean()
    endif
   endfor
 "  call Dret("AlignMaps#AlignMapsClean")
+endfun
+
+" ---------------------------------------------------------------------
+" AlignMaps#Vis: interfaces with visual maps {{{2
+fun! AlignMaps#Vis(nmapname) range
+"  call Dfunc("AlignMaps#VisCall(nmapname<".a:nmapname.">) ".a:firstline.",".a:lastline)
+
+  let amark= SaveMark("a")
+  exe a:firstline
+  ka
+  exe a:lastline
+
+  if !exists("s:mapleader")
+   if exists("g:maplocalleader")
+    let maplead= g:maplocalleader
+   elseif exists("g:mapleader")
+    let maplead= g:mapleader
+   else
+    let maplead= '\'
+   endif
+   let s:mapleader= maplead
+  endif
+
+"  call Decho("exe norm ".maplead.a:nmapname)
+  exe " norm ".s:mapleader.a:nmapname
+
+  call RestoreMark(amark)
+"  call Dret("AlignMaps#VisCall")
 endfun
 
 " ---------------------------------------------------------------------

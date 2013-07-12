@@ -1,7 +1,7 @@
 " cecutil.vim : save/restore window position
 "               save/restore mark position
 "               save/restore selected user maps
-"  Author:	Charles E. Campbell, Jr.
+"  Author:	Charles E. Campbell
 "  Version:	18h	ASTRO-ONLY
 "  Date:	Oct 16, 2012
 "
