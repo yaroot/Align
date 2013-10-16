@@ -1,7 +1,7 @@
 " Align: tool to align multiple fields based on one or more separators
 "   Author:		Charles E. Campbell
-"   Date:		Apr 16, 2013
-"   Version:	38
+"   Date:		Sep 05, 2013
+"   Version:	39a	ASTRO-ONLY
 " GetLatestVimScripts: 294 1 :AutoInstall: Align.vim
 " GetLatestVimScripts: 1066 1 :AutoInstall: cecutil.vim
 " Copyright:    Copyright (C) 1999-2013 Charles E. Campbell {{{1
@@ -25,7 +25,7 @@
 if exists("g:loaded_Align") || &cp
  finish
 endif
-let g:loaded_Align = "v38"
+let g:loaded_Align = "v39a"
 if v:version < 700
  echohl WarningMsg
  echo "***warning*** this version of Align needs vim 7.0"
@@ -1037,29 +1037,30 @@ fun! s:QArgSplitter(qarg)
 endfun
 
 " ---------------------------------------------------------------------
-" s:Strlen: this function returns the length of a string, even if its {{{1
-"           using two-byte etc characters.
-"           Currently, its only used if g:Align_xstrlen is set to a
-"           nonzero value.  Solution from Nicolai Weibull, vim docs
-"           (:help strlen()), Tony Mechelynck, and my own invention.
+" s:Strlen: this function returns the length of a string, even if its using multi-byte characters. {{{1
+"           Solution from Nicolai Weibull, vim docs (:help strlen()),
+"           Tony Mechelynck, and my own invention.
 fun! s:Strlen(x)
 "  call Dfunc("s:Strlen(x<".a:x."> g:Align_xstrlen=".g:Align_xstrlen)
 
-  if type(g:Align_xstrlen) == 1
-   " allow user to specify a function to compute the string length
+  if v:version >= 703 && exists("*strdisplaywidth")
+   let ret= strdisplaywidth(a:x)
+ 
+  elseif type(g:Align_xstrlen) == 1
+   " allow user to specify a function to compute the string length  (ie. let g:Align_xstrlen="mystrlenfunc")
    exe "let ret= ".g:Align_xstrlen."('".substitute(a:x,"'","''","g")."')"
-
+ 
   elseif g:Align_xstrlen == 1
    " number of codepoints (Latin a + combining circumflex is two codepoints)
    " (comment from TM, solution from NW)
    let ret= strlen(substitute(a:x,'.','c','g'))
-
+ 
   elseif g:Align_xstrlen == 2
    " number of spacing codepoints (Latin a + combining circumflex is one spacing
    " codepoint; a hard tab is one; wide and narrow CJK are one each; etc.)
    " (comment from TM, solution from TM)
    let ret=strlen(substitute(a:x, '.\Z', 'x', 'g'))
-
+ 
   elseif g:Align_xstrlen == 3
    " virtual length (counting, for instance, tabs as anything between 1 and
    " 'tabstop', wide CJK as 2 rather than 1, Arabic alif as zero when immediately
@@ -1072,14 +1073,10 @@ fun! s:Strlen(x)
    d
    keepj norm! k
    let &l:mod= modkeep
-
+ 
   else
    " at least give a decent default
-   if v:version >= 703
-	let ret= strdisplaywidth(a:x)
-   else
     let ret= strlen(a:x)
-   endif
   endif
 "  call Dret("s:Strlen ".ret)
   return ret

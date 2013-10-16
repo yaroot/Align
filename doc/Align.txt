@@ -1,8 +1,8 @@
-*align.txt*	The Alignment Tool			Mar 30, 2013
+*align.txt*	The Alignment Tool			Sep 05, 2013
 
 Author:    Charles E. Campbell      <NdrOchip@ScampbellPfamily.AbizM>
            (remove NOSPAM from Campbell's email first)
-Copyright: (c) 2004-2012 by Charles E. Campbell     	*Align-copyright*
+Copyright: (c) 2004-2013 by Charles E. Campbell     	*Align-copyright*
            The VIM LICENSE applies to Align.vim, AlignMaps.vim, and Align.txt
            (see |copyright|) except use "Align and AlignMaps" instead of "Vim"
            NO WARRANTY, EXPRESS OR IMPLIED.  USE AT-YOUR-OWN-RISK.
@@ -1400,6 +1400,8 @@ ALIGNMENT						*:Align* *align-align* {{{2
 4. Alignment Tools' History				*align-history* {{{1
 
 ALIGN HISTORY								{{{2
+	v39	Sep 05, 2013	* strdisplaywidth() now used by default in
+				  s:Strlen().
 	v38	Mar 18, 2013	* (Gary Johnson) pointed out that changing
 				  cedit to <Esc> caused problems with visincr;
 				  the cedit setting is now bypassed in Align, too.
