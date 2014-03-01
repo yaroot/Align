@@ -1,7 +1,7 @@
 " Align: tool to align multiple fields based on one or more separators
 "   Author:		Charles E. Campbell
 "   Date:		Sep 05, 2013
-"   Version:	39a	ASTRO-ONLY
+"   Version:	39b	ASTRO-ONLY
 " GetLatestVimScripts: 294 1 :AutoInstall: Align.vim
 " GetLatestVimScripts: 1066 1 :AutoInstall: cecutil.vim
 " Copyright:    Copyright (C) 1999-2013 Charles E. Campbell {{{1
@@ -25,7 +25,7 @@
 if exists("g:loaded_Align") || &cp
  finish
 endif
-let g:loaded_Align = "v39a"
+let g:loaded_Align = "v39b"
 if v:version < 700
  echohl WarningMsg
  echo "***warning*** this version of Align needs vim 7.0"

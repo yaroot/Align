@@ -37,7 +37,7 @@ if &cp || exists("g:loaded_AlignMapsPlugin")
  finish
 endif
 let s:keepcpo                = &cpo
-let g:loaded_AlignMapsPlugin = "v44a"
+let g:loaded_AlignMapsPlugin = "v44d"
 set cpo&vim
 
 " =====================================================================
@@ -107,9 +107,9 @@ if !hasmapto('<Plug>AM_afnc') |AlignMapsMake afnc|endif
 if !hasmapto('<Plug>AM_aunum')|call s:MakeMap("aunum")|endif
 if !hasmapto('<Plug>AM_aenum')|call s:MakeMap("aenum")|endif
 if exists("g:alignmaps_euronumber") && !exists("g:alignmaps_usanumber")
- if !hasmapto('<Plug>AM_anum')|call s:MakeMap("anum")|endif
+ if !hasmapto('<Plug>AM_anum')|call s:MakeMap("aenum","anum")|endif
 else
- if !hasmapto('<Plug>AM_anum')|call s:MakeMap("anum")|endif
+ if !hasmapto('<Plug>AM_anum')|call s:MakeMap("aunum","anum")|endif
 endif
 
 " ---------------------------------------------------------------------

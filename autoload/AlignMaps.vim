@@ -1,7 +1,7 @@
 " AlignMaps.vim : support functions for AlignMaps
 "   Author: Charles E. Campbell
-"     Date: Mar 30, 2013
-"  Version: 44a	ASTRO-ONLY
+"     Date: Nov 19, 2013
+"  Version: 44d	ASTRO-ONLY
 " Copyright:    Copyright (C) 1999-2012 Charles E. Campbell {{{1
 "               Permission is hereby granted to use and distribute this code,
 "               with or without modifications, provided that this copyright
@@ -16,7 +16,7 @@
 if &cp || exists("g:loaded_AlignMaps")
  finish
 endif
-let g:loaded_AlignMaps= "v44a"
+let g:loaded_AlignMaps= "v44d"
 let s:keepcpo         = &cpo
 set cpo&vim
 
@@ -54,6 +54,11 @@ fun! AlignMaps#WrapperStart(vis) range
    let s:alignmaps_posn       = SaveWinPosn(0)
    " set up fencepost blank lines
    put =''
+   if line("'a") == 0
+	echoerr "Need to set mark-a or use visual-line mode (V)"
+"  call Dret("AlignMaps#WrapperStart : alignmaps_wrapcnt=".s:alignmaps_wrapcnt." my=".line("'y")." mz=".line("'z"))
+	return
+   endif
    keepj norm! mz'a
    put! =''
    ky
